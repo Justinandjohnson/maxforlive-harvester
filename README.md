@@ -128,8 +128,8 @@ doesn't run there, so the whole premise (reading Live's indexer log) doesn't app
 `~/Documents` is often redirected into OneDrive or iCloud. Writing devices into
 `Documents/Ableton/User Library` while Live indexes `OneDrive/Documents/...`
 produces installs that succeed and never appear. The skill tells the agent to read
-Live's own indexer log and use the path it reports — see
-`reference/platform-paths.md`.
+Live's own indexer log and use the path it reports — that guidance is in step 2 of
+`SKILL.md`.
 
 </details>
 
