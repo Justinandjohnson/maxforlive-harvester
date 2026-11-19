@@ -20,11 +20,16 @@ devices. Your agent does the work itself — there are no scripts to run.
 
 ## The rate-limit trap
 
-Burst more than roughly twenty requests and maxforlive.com returns HTTP 429 with a
-body reading `error code: 1015`. After that **every** request looks like
-`File not found`, which is indistinguishable from a device whose author deleted the
-file. Pace at 2-3 seconds per request. If you see many "File not found" in a row,
-stop and retest with a device you know exists before concluding anything.
+Burst `/download.php` and it returns **HTTP 429** — either a 17-byte `error code: 1015`
+or a ~8 KB Cloudflare "Access denied" page. **Only `download.php` is throttled**;
+listing and device pages keep returning 200 while downloads are blocked. Recovery has
+been observed taking over 70 seconds.
+
+Pace at **one download every 2-3 seconds**, and read the status code.
+
+**A 429 is not "File not found".** `File not found` is a separate, real response
+meaning that device has no file hosted here. Never conclude files are missing from a
+429.
 
 ## Finding the User Library
 

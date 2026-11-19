@@ -31,20 +31,23 @@ grep 'UserLibrary:' ~/Library/Preferences/Ableton/Live*/Indexer.txt
 
 ### Reading the line
 
-Live 12 writes it with quotes and a tag:
+It appears in two forms:
 
 ```
-Configure: UserLibrary: '/path/to/User Library' [User Library]
+Configure: UserLibrary: 'C:\Users\...\User Library' [User Library]   # Live 12
+Configure: UserLibrary: C:\Users\...\User Library                    # Live 11
 ```
 
-Live 11 writes it unquoted with no tag:
+Take the **last** match from the **newest** Live version's log — a `Live*` glob
+matches every installed version including stale betas, and the first hit may be from
+a library you no longer use. Strip surrounding quotes and any trailing
+`[User Library]`.
 
+```powershell
+Get-ChildItem "$env:APPDATA\Ableton\Live*\Preferences\Indexer.txt" |
+  Sort-Object LastWriteTime | Select-Object -Last 1 |
+  Get-Content | Select-String 'Configure: UserLibrary:' | Select-Object -Last 1
 ```
-... Configure: UserLibrary: /Users/you/OneDrive/Documents/Ableton/User Library
-```
-
-Take everything after `UserLibrary: ` to end of line, then strip surrounding quotes
-and any trailing `[User Library]`. Do not anchor on the bracket — Live 11 has none.
 
 ### Which version, and which library
 
