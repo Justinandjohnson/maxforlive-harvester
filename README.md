@@ -187,3 +187,10 @@ needed (see SKILL.md section 8).
 If there is demand for a right-click "check for new devices" entry inside Live, an
 extension that *calls* these scripts is the sensible shape â€” not a rewrite in
 TypeScript.
+
+### What the output looks like
+
+See **[examples/CATALOG.md](examples/CATALOG.md)** for a real catalogue generated
+from a 410-device library - grouped into Synths, Drums, Samplers & Granular,
+Sequencers, Chords & Harmony, Modulation, Audio Effects, Push & Session Control,
+Utilities and Experimental, each with "what it does" and "reach for it when".
