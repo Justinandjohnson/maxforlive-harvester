@@ -132,3 +132,26 @@ values to hammer the site, and cache what you download instead of re-fetching.
 ## License
 
 MIT - see [LICENSE](LICENSE).
+
+---
+
+## Incremental by default â€” it already knows what you have
+
+The repo ships a baseline index so a repeat run costs minutes, not hours:
+
+- `seed/known-devices.json` â€” **877 maxforlive.com devices** with the outcome already
+  recorded for each (`downloaded`, `paid`, `gated`, `not-for-sale`, `blocked`, `untried`)
+- `seed/sources.json` â€” the **24 non-maxforlive sources** already found: GitHub repos,
+  Ableton `.alp` packs, and Gumroad items
+
+Before harvesting anything, run:
+
+```powershell
+.\scripts\diff-known.ps1            # lists ONLY devices not already in the seed
+.\scripts\diff-known.ps1 -UpdateSeed  # fold the new finds back in afterwards
+```
+
+Then fetch only the new ids. A full sweep is thousands of paced requests; a diff is
+a handful of pages. If a user asks for something topical ("new granular devices",
+"anything new for Push 2"), list first, then subtract the seed â€” names change, ids
+don't, so filter on `id`.

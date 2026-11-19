@@ -128,6 +128,50 @@ explicitly.
 
 ---
 
+## 3b. Incremental runs — always diff before you harvest
+
+A full harvest is thousands of paced requests and hours of wall time. Most of it
+has already been done once and shipped in this repo. **Do not start from zero.**
+
+`seed/known-devices.json` is a baseline index of **877 maxforlive.com devices**
+with the outcome already known for each:
+
+| `outcome` | Meaning | What to do |
+| --- | --- | --- |
+| `downloaded` | Already fetched and installed | **Skip.** |
+| `paid` | Behind a real price | Skip unless the user says they'll pay it. |
+| `gated` | maxforlive has no file and there was no link | Skip unless the page changed. |
+| `not-for-sale` | Listing withdrawn | Skip. |
+| `blocked` / `blocked-login` | Needed an address or an account | Ask the user, don't retry blindly. |
+| `untried` | Known but never attempted | Fair game. |
+
+`seed/sources.json` lists the **24 non-maxforlive sources** already found and
+their status — GitHub repos (Spunkmeyer77, cpp0/mood, PERLE, Recast, sonus, Puxi,
+Stencil, W1_Hit, Tuple, …), three Ableton `.alp` packs, and the Gumroad items
+(Virazon Lite, Weld, VariationsForPush). Check it before re-searching GitHub.
+
+### The diff
+
+```powershell
+.\scripts\diff-known.ps1                 # newest ~10 pages, lists only what is NOT in the seed
+.\scripts\diff-known.ps1 -Pages 40       # reach further back
+.\scripts\diff-known.ps1 -Json           # machine-readable, for feeding the queue
+.\scripts\diff-known.ps1 -UpdateSeed     # append the new finds to the seed
+```
+
+Then harvest **only the new ids**. In practice this turns a 30-minute-plus job
+into a couple of minutes, and it is the difference between "refresh my library"
+and "rebuild it from scratch".
+
+### When the user gives you a topic instead of a request to sync
+
+If the user says something like *"find me new granular things"* or *"anything new
+for Push 2"*, use `list-devices.ps1 -Query <term>` for discovery, then subtract
+the seed from the results. The seed tells you what they already have, so you only
+report genuinely new material. Filter on the `id` field — names change, ids don't.
+
+---
+
 ## 4. Inventory the catalogue
 
 ```powershell
