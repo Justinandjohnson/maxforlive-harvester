@@ -1,182 +1,115 @@
 # maxforlive-harvester
 
-**An agent skill that fills an Ableton Live User Library with free Max for Live devices — without clicking 400 pages.**
+[![license](https://img.shields.io/github/license/Justinandjohnson/maxforlive-harvester)](LICENSE)
+![platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20pwsh-lightgrey)
+![deps](https://img.shields.io/badge/dependencies-curl%20only-brightgreen)
 
-It walks [maxforlive.com](https://maxforlive.com), respects the site's rate limit, verifies every file by magic bytes, drops each device where Live actually indexes it, finishes the **free** Gumroad checkouts for authors who moved distribution off the site, and prints a categorised catalogue of what you now own.
+**An agent skill that fills your Ableton User Library with free Max for Live devices — without clicking 400 pages.**
 
-Built to survive the two things that quietly break naive M4L scrapers:
+![How a harvest runs: diff, inventory, queue, paced download, verify, install](docs/pipeline.svg)
 
-- **Cloudflare** — 403s `.NET` HTTP clients; this uses `curl` instead.
-- **HTTP 1015 rate limiting** — returns a short text body that looks *exactly* like "File not found". Ignore it and you get hundreds of false negatives, and think everything is gone when you were only throttled.
+## Install
 
-![How a harvest runs](docs/pipeline.svg)
+```bash
+npx skills add Justinandjohnson/maxforlive-harvester
+```
 
----
+That drops it into `.agents/skills/`, which Claude Code, Codex, Cursor and OpenCode all read. Add `-g` to install for every project.
+
+Then just ask your agent:
+
+```text
+Use maxforlive-harvester to refresh my Max for Live library
+```
+
+<details>
+<summary>Other install paths</summary>
+
+- **Claude Code / OpenCode (manual):** copy `skills/maxforlive-harvester/` into `~/.claude/skills/` or `~/.config/opencode/skills/`
+- **Codex:** copy into `~/.agents/skills/` — `AGENTS.md` at the repo root is the entry point
+- **No agent?** Run the scripts directly — see `skills/maxforlive-harvester/SKILL.md`
+
+Every script is plain PowerShell. Nothing is installed, nothing is uploaded, no telemetry.
+
+</details>
+
+## Use
+
+```bash
+cp skills/maxforlive-harvester/config.example.json skills/maxforlive-harvester/config.json
+pwsh skills/maxforlive-harvester/scripts/detect-library.ps1
+```
+
+```console
+$ pwsh scripts/diff-known.ps1
+seed: 877 known devices
+page 0 -> 9 listed, 2 new so far
+
+=== 2 NEW devices not in the seed ===
+id     posted        name                author
+17308  Nov 19 2026   POLYRING 11 DEMO    TTMC
+17309  Nov 19 2026   GOA ACID            TTMC
+```
+
+It already knows what you have, so a refresh costs seconds instead of hours. Then harvest just those:
+
+```bash
+pwsh scripts/build-queue.ps1 -Ids 17308,17309
+pwsh scripts/run.ps1 -Install
+```
+
+**Use when:**
+
+- your User Library was wiped and you want the good free devices back
+- you want new releases since last time, not the whole catalogue again
+- a previous run returned "File not found" for everything — that is usually the site's rate limiter, not missing files
+- you need M4L devices added without spending money or tripping a bot wall
 
 ## What you get
 
-| Ships with this repo | |
-| --- | --- |
-| **877 devices** | a baseline index of maxforlive.com with the outcome already recorded for each |
-| **24 sources** | GitHub repos, Ableton `.alp` packs and Gumroad items already found and catalogued |
-| **16 scripts** | detection, inventory, queue, paced worker, installer, Gumroad flow, monitor, categoriser |
-| **A real catalogue** | [`examples/CATALOG.md`](examples/CATALOG.md) — 410 devices sorted into 10 categories |
-| **Full documentation** | [`SKILL.md`](SKILL.md) — the playbook, `.amxd` internals, and an 18-row troubleshooting table |
-
-## Quickstart
-
-```powershell
-git clone https://github.com/Justinandjohnson/maxforlive-harvester.git
-cd maxforlive-harvester
-Copy-Item config.example.json config.json
-
-.\scripts\detect-library.ps1 -List       # which Live versions exist on this machine
-.\scripts\detect-library.ps1             # write the real User Library path to config.json
-
-.\scripts\diff-known.ps1                 # what is NEW since the shipped seed
-.\scripts\list-devices.ps1 -Pages 5      # or take a fresh inventory
-.\scripts\build-queue.ps1 -Take 50       # queue up work
-.\scripts\run.ps1 -Install               # download + install (run this in the background)
-.\scripts\monitor.ps1                    # progress, pacing, ETA, errors
-
-.\scripts\categorize.ps1                 # -> CATALOG.md, next to your devices
-```
-
-Devices whose files have moved to a store front:
-
-```powershell
-.\scripts\gumroad-discover.ps1           # find the store link per gated device
-.\scripts\gumroad-price-probe.ps1        # read the listed price + checkout URL
-.\scripts\gumroad-next.ps1               # next free candidate (never purchases)
-.\scripts\gumroad-log-result.ps1 -Id <id> -Outcome free-purchased
-```
-
-## How it is laid out
-
-```
-SKILL.md                  the agent skill AND the full manual (read this second)
-README.md                 you are here
-examples/CATALOG.md       real categorised output from a 410-device library
-seed/
-  known-devices.json      877 devices + outcome for each  <- the time saver
-  sources.json            24 non-maxforlive sources already found
-scripts/
-  _common.ps1             config, paths, logging, magic bytes, pacing, JSON helpers
-  detect-library.ps1      find the User Library from Live's own indexer log
-  diff-known.ps1          list ONLY devices missing from the seed
-  list-devices.ps1        inventory maxforlive.com -> devices.json
-  build-queue.ps1         devices.json -> queue.json
-  run.ps1                 paced download worker (+ -Install)
-  install-m4l.ps1         validate + place .amxd / zip, quarantine build trees
-  finish-item.ps1         browser download -> validate -> install, one device
-  await-download.ps1      COMPLETE / COMPLETE-TMP / STALLED / NONE
-  monitor.ps1             progress, pacing, ETA, errors
-  inspect-amxd.ps1        ampf chunk walker + sidecar / dependency_cache audit
-  categorize.ps1          categories + CATALOG.md
-  gumroad-discover.ps1    store front link per gated device
-  gumroad-price-probe.ps1 listed price, permalink, checkout URL
-  gumroad-next.ps1        next free candidate (never purchases)
-  gumroad-log-result.ps1  idempotent result ledger
-```
-
-**Start with `diff-known.ps1`, not `list-devices.ps1`.** The seed already knows what has been done, so a refresh costs minutes instead of hours.
-
----
-
-## Incremental by default — it already knows what you have
-
-`seed/known-devices.json` carries **877 devices** with the outcome already recorded:
-
-| `outcome` | Meaning | What to do |
+| You want | The agent runs | You end up with |
 | --- | --- | --- |
-| `downloaded` | already fetched and installed | skip |
-| `paid` | behind a real price | skip, unless the user says they'll pay |
-| `gated` | no file on the site and no link | skip unless the page changed |
-| `not-for-sale` | listing withdrawn | skip |
-| `blocked` / `blocked-login` | needed an address or an account | ask the user, don't retry blindly |
-| `untried` | known, never attempted | fair game |
+| Everything free, from scratch | `run.ps1 -Install` | A full library, every file verified |
+| Only what is new | `diff-known.ps1` | A short list of releases since last run |
+| Devices whose authors moved to Gumroad | `gumroad-next.ps1` | The **free** ones, $0 checkouts only |
+| To know what you own | `categorize.ps1` | A catalogue sorted by what each device does |
 
-```powershell
-.\scripts\diff-known.ps1                # only devices NOT in the seed
-.\scripts\diff-known.ps1 -Pages 40      # reach further back in time
-.\scripts\diff-known.ps1 -UpdateSeed    # fold the new finds back in
-```
+![410 installed devices, by category](docs/categories.svg)
 
-A full sweep is thousands of paced requests. A diff is a handful of pages. Filter on **`id`**, not name — device names get edited, ids don't.
+## It knows what it is doing
 
-![What the seed already knows](docs/seed-outcomes.svg)
+877 devices are indexed with their outcome already known — so it never re-fetches, and never pretends a paywall was a failure.
 
-## Why the User Library is detected, not assumed
+![What the 877-device seed already knows](docs/seed-outcomes.svg)
 
-`~/Documents` is frequently redirected into OneDrive or another drive. Writing devices into `Documents\Ableton\User Library` while Live indexes `OneDrive\Documents\Ableton\User Library` produces installs that *succeed* and never appear in the browser. The detector reads Live's own indexer log instead:
-
-```
-%APPDATA%\Ableton\Live <VER>\Preferences\Indexer.txt
-Configure: UserLibrary: '<path>' [User Library]
-```
-
-…and warns when a second User Library exists somewhere else. This is the single most common way an M4L install silently fails.
-
-## Gumroad: free only — legal and ethical note
-
-This tool completes a checkout **only when the cart total is 0.00**.
-
-It reads the price from the product page, then **re-verifies the cart total** before submitting — because a "$0+" pay-what-you-want listing can still default to something non-zero. One observed case read "$0+" on the listing but totalled **$5.49** at checkout.
-
-It never enters payment details, never bypasses a price, never uses credentials it was not given, and records anything above zero as `paid` without buying it. If an order needs a login to reach the download, it stops and reports `blocked-login`. It asks the user for their email — it never ships with one baked in.
-
-Free downloads are free because the author chose to give them away. **Respect the licence** — many are personal use only, and some are demos of a paid product.
-
-## What is and is not automated
-
-| Automated | Manual by design |
-| --- | --- |
-| Catalogue scraping, paced downloads, magic-byte validation | `.alp` packs (drag into Live) |
-| Zip extraction, build-tree quarantine, placement | Anything above 0.00 at Gumroad |
-| Free Gumroad checkout navigation and price reading | Card details (never) |
-| Device categorisation and catalogue generation | Account login walls |
+**263 of those were behind a real price and were deliberately not bought.** The tool completes a checkout only when the cart total is 0.00, checks that total rather than the listing (a "$0+" item was seen totalling $5.49), and asks you for your email instead of shipping with one.
 
 ## Requirements
 
-- **PowerShell 5.1+** (Windows) or **PowerShell 7** (`pwsh`, macOS/Linux)
-- **curl** — bundled with Windows 10+ and macOS
-- **Ableton Live**, started at least once, with Max for Live
-- A browser session with a Gumroad login, if you want the store-front step
+- **PowerShell 5.1+** on Windows, or **PowerShell 7 (`pwsh`)** on macOS/Linux — `pwsh` is not preinstalled on macOS
+- **curl** (bundled with Windows 10+ and macOS)
+- **Ableton Live** with Max for Live, started at least once
 
-> **Platform status:** developed and tested on **Windows**. The macOS preferences path is implemented and the scripts are portable, but no macOS run has been recorded. If you hit a problem there, an issue with your error output is genuinely useful.
+> **Tested on Windows only.** The macOS paths are implemented but have never been run. If you hit something, an issue with your error output is genuinely useful.
 
----
+<details>
+<summary>Why it detects your User Library instead of guessing</summary>
 
-## Related work
+`~/Documents` is often redirected into OneDrive. Writing devices into `Documents\Ableton\User Library` while Live indexes `OneDrive\Documents\...` produces installs that succeed and never appear. The detector reads Live's own indexer log and warns when a second library exists.
 
-None of these do what this does, but they are the closest neighbours:
+</details>
 
-- **[thereplicants/ableton-package-manager](https://github.com/thereplicants/ableton-package-manager)** — an experimental package manager for the Max for Live ecosystem. Manages devices you already have; it does not find or fetch them from the web.
-- **[mgarbvs/m4l-github-updater](https://github.com/mgarbvs/m4l-github-updater)** — an Ableton Extension that checks GitHub for newer releases of devices you have installed. Covers the update half of an incremental workflow, scoped to GitHub.
-- **[Ronvaknins/ableton-extensions-skill](https://github.com/Ronvaknins/ableton-extensions-skill)** — an agent skill for building Ableton Live extensions with the Extensions SDK.
+<details>
+<summary>Related work, and why this is not an Ableton Extension</summary>
 
-### Why this is not an Ableton Extension
+- [thereplicants/ableton-package-manager](https://github.com/thereplicants/ableton-package-manager) — manages devices you already have; does not fetch them
+- [mgarbvs/m4l-github-updater](https://github.com/mgarbvs/m4l-github-updater) — updates installed devices from GitHub
+- [Ronvaknins/ableton-extensions-skill](https://github.com/Ronvaknins/ableton-extensions-skill) — builds Ableton Extensions
 
-An Ableton Extension is an offline editing/automation layer that runs *inside* Live and acts on the Set when a user triggers a command. Harvesting is not that — it is HTTP, rate limiting, file validation and filesystem placement, all of which work with Live closed.
+Harvesting is HTTP, rate limiting and file validation — all of which work with Live closed. An Extension would add a Node ≥24 toolchain and a beta SDK to save about thirty seconds.
 
-Wrapping it in an extension would add a Node (≥24.14.1) toolchain and an SDK still in beta, to save roughly thirty seconds: Live indexes the User Library automatically via OS file events, so no restart is normally needed.
-
-If there is demand for a right-click "check for new devices" entry inside Live, an extension that *calls* these scripts is the sensible shape — not a rewrite in TypeScript.
-
-## What the output looks like
-
-See **[examples/CATALOG.md](examples/CATALOG.md)** — a real catalogue from a 410-device library, grouped into Synths, Drums & Percussion, Samplers & Granular, Sequencers, Chords & Harmony, Modulation, Audio Effects, Push & Session Control, Utilities and Experimental, each with *what it does* and *reach for it when*.
-
-Devices marked *inferred from name* are undocumented — the listing had no usable description. That's flagged rather than guessed over.
-
-![Installed devices by category](docs/categories.svg)
-
-## Disclaimer
-
-**Not affiliated with, endorsed by, or supported by Ableton AG, Cycling '74, maxforlive.com, or Gumroad.** Max for Live and Ableton Live are trademarks of Ableton AG. This is an independent, unofficial helper that drives public web pages and uses no private APIs. Site markup and store-front behaviour change without notice — if a parser breaks, the selectors live in `list-devices.ps1` and `gumroad-price-probe.ps1`.
-
-Use it considerately: keep the pacing defaults, don't raise `maxDelay` to hammer the site, and cache what you download instead of re-fetching.
+</details>
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+MIT — see [LICENSE](LICENSE). Not affiliated with Ableton AG, Cycling '74, maxforlive.com or Gumroad.

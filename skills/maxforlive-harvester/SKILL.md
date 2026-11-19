@@ -1,10 +1,11 @@
 ---
 name: maxforlive-harvester
-description: Find, download, verify and install Max for Live (.amxd) devices and packs into Ableton Live, including free Gumroad checkouts, with adaptive rate-limit handling and device categorisation. Use when bulk-adding M4L devices or harvesting maxforlive.com.
+description: Find, download, verify and install Max for Live (.amxd) devices into Ableton Live, including completing FREE Gumroad checkouts. Use when bulk-adding M4L devices, refreshing a User Library after a reinstall, or harvesting maxforlive.com - especially when a previous attempt returned "File not found" for everything (that is usually HTTP 1015 rate limiting, not missing files).
+license: MIT
+compatibility: PowerShell 5.1+ on Windows, or PowerShell 7 (pwsh) on macOS/Linux. Needs curl and Ableton Live with Max for Live.
 metadata:
   origin: community
 ---
-
 # Max for Live Harvester
 
 Bulk harvest Max for Live devices from maxforlive.com, validate them, place them

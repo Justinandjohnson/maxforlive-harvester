@@ -586,6 +586,7 @@ function Invoke-M4LScript {
     if (-not (Test-Path -LiteralPath $scriptPath)) { throw "Missing sibling script: $scriptPath" }
 
     $exe = 'powershell.exe'
+    if ($PSVersionTable.PSVersion.Major -ge 6 -and -not $IsWindows) { $exe = 'pwsh' }
     try {
         $hostPath = (Get-Process -Id $PID -ErrorAction Stop).Path
         if ($hostPath -and (Split-Path -Leaf $hostPath) -match '^(powershell|pwsh)(\.exe)?$') { $exe = $hostPath }

@@ -64,8 +64,15 @@ if ($state) {
 # --- is a worker actually alive? ------------------------------------------- #
 Write-Host ''
 Write-Host ' --- running? ---'
-$procs = @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" -ErrorAction SilentlyContinue |
-           Where-Object { $_.CommandLine -and $_.CommandLine -match 'run\.ps1' -and ($_.CommandLine -match 'maxforlive' -or $_.CommandLine -match 'harvest') })
+$procs = @()
+try {
+    $procs = @(Get-CimInstance Win32_Process -Filter "Name='powershell.exe' OR Name='pwsh.exe'" -ErrorAction Stop |
+               Where-Object { $_.CommandLine -and $_.CommandLine -match 'run\.ps1' -and ($_.CommandLine -match 'maxforlive' -or $_.CommandLine -match 'harvest') })
+} catch {
+    # Win32_Process is Windows-only; fall back to Get-Process (PS7 exposes CommandLine)
+    $procs = @(Get-Process -Name powershell, pwsh -ErrorAction SilentlyContinue |
+               Where-Object { $_.CommandLine -and $_.CommandLine -match 'run\.ps1' -and ($_.CommandLine -match 'maxforlive' -or $_.CommandLine -match 'harvest') })
+}
 if ($procs.Count -gt 0) {
     Write-Host ("   RUNNING (pid {0})" -f (($procs | ForEach-Object { $_.ProcessId }) -join ','))
 } else {

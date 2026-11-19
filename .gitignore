@@ -1,11 +1,13 @@
 # Local configuration - machine specific, never publish it
 config.json
+skills/*/config.json
 
 # Harvest state: queue, ledger, payload cache, logs, quarantine
 .work/
+skills/*/.work/
 *.log
 
-# Downloaded payloads, if you keep them elsewhere under the repo
+# Downloaded payloads, if you keep them under the repo
 downloads/
 _stage/
 quarantine/
