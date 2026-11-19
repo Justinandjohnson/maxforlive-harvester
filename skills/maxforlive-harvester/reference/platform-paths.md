@@ -69,15 +69,21 @@ Use these only as a fallback, and say you did.
 
 | What you have | Where it goes |
 | --- | --- |
-| Instrument with support files | `<UserLibrary>/Presets/Instruments/Max Instrument/<Name>/` |
-| Audio effect with support files | `<UserLibrary>/Presets/Audio Effects/Max Audio Effect/<Name>/` |
-| MIDI effect with support files | `<UserLibrary>/Presets/MIDI Effects/Max MIDI Effect/<Name>/` |
-| Plain `.amxd`, no siblings | `<UserLibrary>/Max for Live Devices/<Collection>/` |
+| Device with support files (`.js`, `.html`, `.json`, `.woff2` beside the `.amxd`) | `<UserLibrary>/Max for Live Devices/<Collection>/<Name>/` |
+| Plain `.amxd`, no siblings — instrument | `<UserLibrary>/Presets/Instruments/<Name>/` |
+| Plain `.amxd`, no siblings — audio effect | `<UserLibrary>/Presets/Audio Effects/<Name>/` |
+| Plain `.amxd`, no siblings — MIDI effect | `<UserLibrary>/Presets/Max MIDI Effect/<Name>/` |
+| Plain `.amxd`, no siblings — anything else | `<UserLibrary>/Max for Live Devices/<Collection>/` |
 | A zip of several devices | its own folder under `Max for Live Devices/<Collection>/` |
 | `.alp` Ableton Pack | nowhere — the user drags it onto Live |
 
+A real `Presets/` folder contains only `Audio Effects`, `Instruments`, `Max MIDI Effect`
+and `MIDI Effects`. Do **not** invent `Max Audio Effect` or `Max Instrument` — they do
+not exist on a normal install.
+
 "Support files" means a `.js`, `.html` or `.json` sitting next to the `.amxd`. The
-folder must travel with the device or it will not load.
+folder must travel with the device or it will not load, so the whole folder goes into
+the collection rather than being split up.
 
 `<Collection>` is any folder name you choose; one per harvest keeps things tidy.
 **Create it before copying** — `mkdir -p` / `New-Item -ItemType Directory -Force`.

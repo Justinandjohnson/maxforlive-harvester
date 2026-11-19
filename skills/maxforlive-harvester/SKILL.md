@@ -86,6 +86,7 @@ Filter on `id`, never on name — names get edited, ids do not.
 | `not-for-sale` | listing withdrawn |
 | `blocked` | needed an address, an email the user wouldn't give, or similar |
 | `blocked-login` | order completed, download is behind an account login |
+| `available` | hosts a file, but you did not download it this run (e.g. the user only wanted the newest one) |
 
 ## 3. Download
 
