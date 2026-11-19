@@ -1,0 +1,35 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='660' height='354' viewBox='0 0 660 354' role='img' aria-label='Installed devices by category'>
+<rect width='660' height='354' fill='#ffffff'/>
+<text x='20' y='28' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='15' font-weight='600' fill='#1f2328'>410 installed devices, by category</text>
+<text x='200' y='69' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Utilities</text>
+<rect x='210' y='58' width='330' height='16' rx='3' fill='#54aeff'/>
+<text x='548' y='70' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>77</text>
+<text x='200' y='97' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Synths</text>
+<rect x='210' y='86' width='261' height='16' rx='3' fill='#54aeff'/>
+<text x='479' y='98' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>61</text>
+<text x='200' y='125' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Drums &amp; Percussion</text>
+<rect x='210' y='114' width='244' height='16' rx='3' fill='#54aeff'/>
+<text x='462' y='126' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>57</text>
+<text x='200' y='153' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Experimental</text>
+<rect x='210' y='142' width='236' height='16' rx='3' fill='#54aeff'/>
+<text x='454' y='154' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>55</text>
+<text x='200' y='181' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Audio Effects</text>
+<rect x='210' y='170' width='189' height='16' rx='3' fill='#54aeff'/>
+<text x='407' y='182' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>44</text>
+<text x='200' y='209' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Push &amp; Session Control</text>
+<rect x='210' y='198' width='176' height='16' rx='3' fill='#54aeff'/>
+<text x='394' y='210' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>41</text>
+<text x='200' y='237' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Sequencers &amp; Pattern Gen.</text>
+<rect x='210' y='226' width='116' height='16' rx='3' fill='#54aeff'/>
+<text x='334' y='238' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>27</text>
+<text x='200' y='265' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Samplers &amp; Granular</text>
+<rect x='210' y='254' width='94' height='16' rx='3' fill='#54aeff'/>
+<text x='312' y='266' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>22</text>
+<text x='200' y='293' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Chords &amp; Harmony</text>
+<rect x='210' y='282' width='73' height='16' rx='3' fill='#54aeff'/>
+<text x='291' y='294' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>17</text>
+<text x='200' y='321' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#1f2328'>Modulation</text>
+<rect x='210' y='310' width='39' height='16' rx='3' fill='#54aeff'/>
+<text x='257' y='322' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' font-weight='600' fill='#57606a'>9</text>
+<text x='20' y='346' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#57606a'>A real run against a 410-device library - see examples/CATALOG.md</text>
+</svg>

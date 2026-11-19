@@ -9,6 +9,8 @@ Built to survive the two things that quietly break naive M4L scrapers:
 - **Cloudflare** — 403s `.NET` HTTP clients; this uses `curl` instead.
 - **HTTP 1015 rate limiting** — returns a short text body that looks *exactly* like "File not found". Ignore it and you get hundreds of false negatives, and think everything is gone when you were only throttled.
 
+![How a harvest runs](docs/pipeline.svg)
+
 ---
 
 ## What you get
@@ -102,6 +104,8 @@ scripts/
 
 A full sweep is thousands of paced requests. A diff is a handful of pages. Filter on **`id`**, not name — device names get edited, ids don't.
 
+![What the seed already knows](docs/seed-outcomes.svg)
+
 ## Why the User Library is detected, not assumed
 
 `~/Documents` is frequently redirected into OneDrive or another drive. Writing devices into `Documents\Ableton\User Library` while Live indexes `OneDrive\Documents\Ableton\User Library` produces installs that *succeed* and never appear in the browser. The detector reads Live's own indexer log instead:
@@ -164,6 +168,8 @@ If there is demand for a right-click "check for new devices" entry inside Live, 
 See **[examples/CATALOG.md](examples/CATALOG.md)** — a real catalogue from a 410-device library, grouped into Synths, Drums & Percussion, Samplers & Granular, Sequencers, Chords & Harmony, Modulation, Audio Effects, Push & Session Control, Utilities and Experimental, each with *what it does* and *reach for it when*.
 
 Devices marked *inferred from name* are undocumented — the listing had no usable description. That's flagged rather than guessed over.
+
+![Installed devices by category](docs/categories.svg)
 
 ## Disclaimer
 

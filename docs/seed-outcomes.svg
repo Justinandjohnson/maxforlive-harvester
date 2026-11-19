@@ -1,0 +1,37 @@
+<svg xmlns='http://www.w3.org/2000/svg' width='660' height='310' viewBox='0 0 660 310' role='img' aria-label='Seed index by outcome'>
+<rect width='660' height='310' fill='#ffffff'/>
+<text x='20' y='28' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='15' font-weight='600' fill='#1f2328'>What the 877-device seed already knows</text>
+<path d='M 150.00 62.00 A 96 96 0 0 1 221.60 221.95 L 193.26 196.63 A 58 58 0 0 0 150.00 100.00 Z' fill='#2da44e' stroke='#ffffff' stroke-width='1.5'/>
+<path d='M 221.60 221.95 A 96 96 0 0 1 61.83 195.97 L 96.73 180.94 A 58 58 0 0 0 193.26 196.63 Z' fill='#8c959f' stroke='#ffffff' stroke-width='1.5'/>
+<path d='M 61.83 195.97 A 96 96 0 0 1 141.07 62.42 L 144.61 100.25 A 58 58 0 0 0 96.73 180.94 Z' fill='#bf8700' stroke='#ffffff' stroke-width='1.5'/>
+<path d='M 141.07 62.42 A 96 96 0 0 1 145.87 62.09 L 147.51 100.05 A 58 58 0 0 0 144.61 100.25 Z' fill='#8250df' stroke='#ffffff' stroke-width='1.5'/>
+<path d='M 145.87 62.09 A 96 96 0 0 1 149.31 62.00 L 149.58 100.00 A 58 58 0 0 0 147.51 100.05 Z' fill='#cf222e' stroke='#ffffff' stroke-width='1.5'/>
+<path d='M 149.31 62.00 A 96 96 0 0 1 150.00 62.00 L 150.00 100.00 A 58 58 0 0 0 149.58 100.00 Z' fill='#0969da' stroke='#ffffff' stroke-width='1.5'/>
+<text x='150' y='154' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='26' font-weight='700' fill='#1f2328'>877</text>
+<text x='150' y='176' text-anchor='middle' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#57606a'>devices indexed</text>
+<rect x='300' y='67' width='13' height='13' rx='3' fill='#2da44e'/>
+<text x='322' y='78' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' fill='#1f2328'>downloaded</text>
+<text x='490' y='78' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='600' fill='#1f2328'>321</text>
+<text x='560' y='78' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#57606a'>36.6%</text>
+<rect x='300' y='99' width='13' height='13' rx='3' fill='#8c959f'/>
+<text x='322' y='110' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' fill='#1f2328'>gated</text>
+<text x='490' y='110' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='600' fill='#1f2328'>280</text>
+<text x='560' y='110' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#57606a'>31.9%</text>
+<rect x='300' y='131' width='13' height='13' rx='3' fill='#bf8700'/>
+<text x='322' y='142' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' fill='#1f2328'>paid</text>
+<text x='490' y='142' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='600' fill='#1f2328'>263</text>
+<text x='560' y='142' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#57606a'>30%</text>
+<rect x='300' y='163' width='13' height='13' rx='3' fill='#8250df'/>
+<text x='322' y='174' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' fill='#1f2328'>not-for-sale</text>
+<text x='490' y='174' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='600' fill='#1f2328'>7</text>
+<text x='560' y='174' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#57606a'>0.8%</text>
+<rect x='300' y='195' width='13' height='13' rx='3' fill='#cf222e'/>
+<text x='322' y='206' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' fill='#1f2328'>blocked</text>
+<text x='490' y='206' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='600' fill='#1f2328'>5</text>
+<text x='560' y='206' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#57606a'>0.6%</text>
+<rect x='300' y='227' width='13' height='13' rx='3' fill='#0969da'/>
+<text x='322' y='238' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' fill='#1f2328'>blocked-login</text>
+<text x='490' y='238' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='13' font-weight='600' fill='#1f2328'>1</text>
+<text x='560' y='238' text-anchor='end' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='12' fill='#57606a'>0.1%</text>
+<text x='300' y='292' font-family='-apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif' font-size='11' fill='#57606a'>263 were behind a real price, and were deliberately not bought.</text>
+</svg>
