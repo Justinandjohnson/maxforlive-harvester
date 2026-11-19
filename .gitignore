@@ -1,0 +1,19 @@
+# Local configuration - machine specific, never publish it
+config.json
+
+# Harvest state: queue, ledger, payload cache, logs, quarantine
+.work/
+*.log
+
+# Downloaded payloads, if you keep them elsewhere under the repo
+downloads/
+_stage/
+quarantine/
+
+# Editor / OS noise
+.vscode/
+.idea/
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp

@@ -1,0 +1,32 @@
+{
+  "_comment": "Copy to config.json and run scripts/detect-library.ps1 to fill in userLibrary automatically. Only userLibrary and buyerEmail really need setting.",
+
+  "userLibrary": "",
+  "downloadsDir": "",
+  "workDir": "",
+  "collection": "Harvester",
+  "buyerEmail": "",
+
+  "pacing": {
+    "startDelay": 3.0,
+    "minDelay": 2.0,
+    "maxDelay": 120.0,
+    "backoffFactor": 1.6,
+    "throttleRetryFactor": 2.0,
+    "speedUpAfter": 8,
+    "speedUpFactor": 0.9,
+    "maxRuntimeMinutes": 600
+  },
+
+  "http": {
+    "curlPath": "curl.exe",
+    "userAgent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+    "requestTimeoutSeconds": 120
+  },
+
+  "gumroad": {
+    "maxFreeTotal": 0.0,
+    "currency": "USD",
+    "storeFronts": ["gumroad.com", "lemonsqueezy", "ko-fi", "itch.io", "payhip"]
+  }
+}
