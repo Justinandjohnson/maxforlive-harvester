@@ -1,49 +1,41 @@
 # Max for Live Harvester
 
-An **agent skill** that fills an Ableton Live User Library with free Max for Live devices.
+An **agent skill** that fills an Ableton Live User Library with free Max for Live
+devices. Your agent does the work itself — there are no scripts to run.
 
-- The instructions are in **[skills/maxforlive-harvester/SKILL.md](skills/maxforlive-harvester/SKILL.md)** — read it first, it is the whole playbook.
-- If your tool reads `SKILL.md` skills (Claude Code, Codex, Cursor, OpenCode), that file is the entry point and this one is mostly redundant.
-- If your tool reads `AGENTS.md`, the rules below are the part that matters before you touch anything.
-
-Everything lives under `skills/maxforlive-harvester/` — `scripts/`, `seed/`, `config.example.json`.
-
-## Before you run anything
-
-```powershell
-Copy-Item skills/maxforlive-harvester/config.example.json skills/maxforlive-harvester/config.json
-pwsh skills/maxforlive-harvester/scripts/detect-library.ps1
-```
-
-`detect-library.ps1` finds the real User Library from Live's own indexer log. **Never**
-assume `~/Documents/Ableton/User Library` — Documents is commonly redirected to
-OneDrive, and writing there produces installs that succeed and never appear in Live.
-
-Then run `diff-known.ps1` before any full harvest. It reports only devices missing
-from `seed/known-devices.json` (877 already indexed with outcomes). A full sweep is
-hours; a diff is minutes.
+- The skill is **[skills/maxforlive-harvester/SKILL.md](skills/maxforlive-harvester/SKILL.md)**. That file is the whole thing.
+- `reference/platform-paths.md` in the same folder gives the on-disk paths per OS.
+- `seed/known-devices.json` lists 877 devices already indexed so you skip them.
+- If your tool reads `SKILL.md` skills (Claude Code, Codex, Cursor, OpenCode), that file is the entry point. If it reads `AGENTS.md`, the rules below are what matter.
 
 ## Hard rules — do not skip these
 
-- **Spend no money.** Gumroad checkouts only when the cart total is 0.00. Verify the
-  cart total, not the listing — a "$0+" pay-what-you-want product can total more.
+- **Spend no money.** Gumroad checkouts only when the **cart total** is 0.00. Check
+  the cart, not the listing — a "$0+" product has been seen totalling $5.49.
 - **Never enter card or payment details.** Email only.
-- **Ask the user for their email.** `config.json:buyerEmail` ships empty on purpose.
-  Never invent an address; never reuse one from a previous session.
-- **Never take window focus.** Use background jobs for long runs. A window stealing
-  focus interrupts the user.
-- **Keep the pacing defaults.** Raising them trips the site's rate limiter (HTTP
-  1015), whose response is indistinguishable from "File not found" — you will
-  silently harvest nothing and conclude the site is empty.
+- **Ask the user for their email.** Never invent an address, never reuse one.
+- **Never take window focus.** A window stealing focus interrupts the user.
+- **Never replace `libusb-1.0.dll` or a control-surface script.** Out of scope.
+- **Never install an unverified file.** `.amxd` must start with `ampf`; `.zip` with `PK`.
+
+## The rate-limit trap
+
+Burst more than roughly twenty requests and maxforlive.com returns HTTP 429 with a
+body reading `error code: 1015`. After that **every** request looks like
+`File not found`, which is indistinguishable from a device whose author deleted the
+file. Pace at 2-3 seconds per request. If you see many "File not found" in a row,
+stop and retest with a device you know exists before concluding anything.
+
+## Finding the User Library
+
+Never assume `~/Documents/Ableton/User Library` — Documents is commonly redirected to
+OneDrive or iCloud, and writing there produces installs that succeed and never
+appear. Read Live's own indexer log and use the path it reports. Locations for each
+OS are in `reference/platform-paths.md`.
 
 ## Verify before claiming success
 
-- Every `.amxd` must start with the ASCII magic `ampf`; every `.zip` with `PK`.
-- Confirm the file landed on disk before moving on (`await-download.ps1`).
+- `.amxd` starts with `ampf`; `.zip` starts with `PK`; anything under ~200 bytes is an
+  error message, not a file.
+- Confirm the file landed on disk before moving on.
 - `.alp` packs cannot be unpacked — the user must drag them into Live.
-
-## Requirements
-
-PowerShell 5.1+ (Windows) or PowerShell 7 (`pwsh`, macOS/Linux), plus `curl`. On
-macOS and Linux `pwsh` is not installed by default — if it is missing, say so rather
-than rewriting the scripts on the fly.
