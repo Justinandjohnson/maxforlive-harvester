@@ -4,7 +4,6 @@ An **agent skill** that fills an Ableton Live User Library with free Max for Liv
 devices. Your agent does the work itself — there are no scripts to run.
 
 - The skill is **[skills/maxforlive-harvester/SKILL.md](skills/maxforlive-harvester/SKILL.md)**. That file is the whole thing.
-- `reference/platform-paths.md` in the same folder gives the on-disk paths per OS.
 - `seed/known-devices.json` lists 877 devices already indexed so you skip them.
 - If your tool reads `SKILL.md` skills (Claude Code, Codex, Cursor, OpenCode), that file is the entry point. If it reads `AGENTS.md`, the rules below are what matter.
 
@@ -36,7 +35,7 @@ meaning that device has no file hosted here. Never conclude files are missing fr
 Never assume `~/Documents/Ableton/User Library` — Documents is commonly redirected to
 OneDrive or iCloud, and writing there produces installs that succeed and never
 appear. Read Live's own indexer log and use the path it reports. Locations for each
-OS are in `reference/platform-paths.md`.
+OS are in SKILL.md step 2.
 
 ## Verify before claiming success
 
