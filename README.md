@@ -49,12 +49,15 @@ indexes.
 
 | File | Role |
 | --- | --- |
-| `skills/maxforlive-harvester/SKILL.md` | The instructions. This is the skill. |
-| `skills/maxforlive-harvester/reference/platform-paths.md` | Where devices go on Windows and macOS |
-| `skills/maxforlive-harvester/seed/known-devices.json` | 877 devices from a previous harvest, each with its outcome |
-| `skills/maxforlive-harvester/seed/sources.json` | 24 non-catalogue sources already located (18 GitHub repos, 3 Ableton packs, 3 store items) |
-| `examples/CATALOG.md` | Sample output — 410 devices sorted by what they do |
-| `docs/*.svg` | The charts on this page |
+| `skills/maxforlive-harvester/SKILL.md` | **The whole skill.** Self-contained — every path, URL, check and rule is in this one file. |
+| `skills/maxforlive-harvester/seed/known-devices.json` | Optional. 877 devices from a previous harvest, so repeat runs skip them. The skill works without it. |
+| `skills/maxforlive-harvester/seed/sources.json` | Optional. 24 non-catalogue sources already located. |
+| `examples/CATALOG.md` | Sample output — 410 devices sorted by what they do. |
+| `docs/*.svg` | The charts on this page. |
+
+**To share this with someone, `SKILL.md` is enough on its own.** Drop that one file in
+a skills folder and it works. The seed folder is a speed-up, not a dependency. There
+are no scripts, no installer, no build step and no runtime.
 
 ## Use when
 
