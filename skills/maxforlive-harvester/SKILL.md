@@ -55,11 +55,14 @@ but do not treat it as the full description.
 
 ### Which devices actually have a file
 
-Look at the form in each listing entry:
+**Do not guess from the listing.** Some listing entries carry no form at all, and a
+device with a perfectly good file can look storefront-only. Test at the device page:
 
-- posts to `/download.php` → **has a file**, go to step 3
-- says `Device Details` → **storefront-only**, go to step 7
-- `Website:` row on the device page is the usual giveaway
+- the `Device File:` row names the file (e.g. `POLYRING_11_DEMO.amxd`) → **has a file**
+- that row is empty → **storefront-only**, go to step 7
+
+The reload-safe version is simply to try the download and read the status: 200 plus
+`ampf`/`PK` means it has a file; a short `File not found` body means it does not.
 
 Do not open a storefront-only device looking for a download button. There isn't one.
 
