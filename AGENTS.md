@@ -43,4 +43,4 @@ OS are in `reference/platform-paths.md`.
 - `.amxd` starts with `ampf`; `.zip` starts with `PK`; anything under ~200 bytes is an
   error message, not a file.
 - Confirm the file landed on disk before moving on.
-- `.alp` packs cannot be unpacked — the user must drag them into Live.
+- `.alp` packs are gzip, sometimes behind a `pl-a` header. They decompress to a Live Set, not installable devices — the user must drag them into Live.
