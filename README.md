@@ -51,7 +51,6 @@ indexes.
 | --- | --- |
 | `skills/maxforlive-harvester/SKILL.md` | **The whole skill.** Self-contained — every path, URL, check and rule is in this one file. |
 | `skills/maxforlive-harvester/seed/known-devices.json` | Optional. 877 devices from a previous harvest, so repeat runs skip them. The skill works without it. |
-| `skills/maxforlive-harvester/seed/sources.json` | Optional. 24 non-catalogue sources already located. |
 | `examples/CATALOG.md` | Sample output — 410 devices sorted by what they do. |
 | `docs/*.svg` | The charts on this page. |
 
