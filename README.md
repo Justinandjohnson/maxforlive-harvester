@@ -155,3 +155,35 @@ Then fetch only the new ids. A full sweep is thousands of paced requests; a diff
 a handful of pages. If a user asks for something topical ("new granular devices",
 "anything new for Push 2"), list first, then subtract the seed â€” names change, ids
 don't, so filter on `id`.
+
+---
+
+## Related work
+
+None of these do what this skill does, but they are the closest neighbours and worth
+knowing about:
+
+- **[thereplicants/ableton-package-manager](https://github.com/thereplicants/ableton-package-manager)**
+  â€” an experimental package manager for the Max for Live ecosystem. Manages devices you
+  already have; it does not find or fetch them from the web.
+- **[mgarbvs/m4l-github-updater](https://github.com/mgarbvs/m4l-github-updater)**
+  â€” an Ableton Extension that checks GitHub for newer releases of M4L devices you have
+  installed. Covers the update half of an incremental workflow, scoped to GitHub.
+- **[Ronvaknins/ableton-extensions-skill](https://github.com/Ronvaknins/ableton-extensions-skill)**
+  â€” an agent skill for building Ableton Live extensions with the Extensions SDK.
+
+### Why this is not an Ableton Extension
+
+An [Ableton Extension](https://github.com/Ronvaknins/ableton-extensions-skill) is an
+offline editing/automation layer that runs *inside* Live and acts on the Set when a
+user triggers a command. Harvesting devices is not that â€” it is HTTP, rate limiting,
+file validation and filesystem placement, all of which work with Live closed.
+
+Wrapping this in an extension would also add a Node (>=24.14.1) toolchain and an SDK
+that is still in beta, to save the user roughly thirty seconds: Live indexes the User
+Library automatically via OS file events, so no restart or manual refresh is normally
+needed (see SKILL.md section 8).
+
+If there is demand for a right-click "check for new devices" entry inside Live, an
+extension that *calls* these scripts is the sensible shape â€” not a rewrite in
+TypeScript.
