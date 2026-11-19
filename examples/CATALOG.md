@@ -1,11 +1,11 @@
 # Example output: CATALOG.md
 
-This is a **real** catalogue produced by `scripts/categorize.ps1` against a library
-of **410 installed devices**. It is here so you can see the shape of the output
-before running it yourself, not as a fixed list to download.
+This is a **real** catalogue, produced by an agent following this skill against a
+library of **410 installed devices**. It is here so you can see the shape of the
+output before running it yourself, not as a fixed list to download.
 
-Your own run produces different contents. The script reads the devices in your
-User Library and writes the same three-column format:
+Your own run produces different contents. The agent reads the devices in your User
+Library and writes the same three-column format:
 
 | Device | What it does | Reach for it when |
 

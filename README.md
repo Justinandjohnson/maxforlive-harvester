@@ -1,26 +1,11 @@
 # maxforlive-harvester
 
 [![license](https://img.shields.io/github/license/Justinandjohnson/maxforlive-harvester)](LICENSE)
-![platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS%20%7C%20Linux-lightgrey)
+![platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-lightgrey)
 ![deps](https://img.shields.io/badge/dependencies-none-brightgreen)
 
-**An agent skill that fills your Ableton User Library with free Max for Live devices — without clicking 400 pages.**
-
-![What your agent does: list, diff, download, verify, install, confirm](docs/pipeline.svg)
-
-## What this is
-
-It's a **skill file**. Your agent reads it and does the work itself, using the
-browser and shell tools it already has.
-
-| File | Role |
-| --- | --- |
-| `SKILL.md` | The instructions. This is the skill. |
-| `reference/platform-paths.md` | Where devices go on Windows, macOS and Linux |
-| `seed/known-devices.json` | 877 devices already indexed, so it skips what you have |
-
-That's all of it. **No scripts, no installer, no dependencies, nothing to run.** If
-your agent can browse the web and move a file, it can do this.
+**No installer, no scripts, nothing to run.** An agent skill that fills your Ableton
+User Library with free Max for Live devices — without clicking 400 pages.
 
 ## Install
 
@@ -28,27 +13,52 @@ your agent can browse the web and move a file, it can do this.
 npx skills add Justinandjohnson/maxforlive-harvester
 ```
 
-Copies the skill into `.agents/skills/`, which Claude Code, Codex, Cursor and
-OpenCode all read. Add `-g` to install for every project.
+Installs into `.agents/skills/` â€” read directly by Codex and Cursor. It also links
+into `.claude/skills/` for Claude Code, but only in recent versions of the CLI; run
+`npx skills@latest`, since 1.5.15 and earlier skip that link. If it doesn't show up
+in your tool, the manual copy below always works.
 
-<details>
-<summary>Other ways to install</summary>
-
-- **Claude Code / OpenCode:** copy the `skills/maxforlive-harvester/` folder into `~/.claude/skills/` or `~/.config/opencode/skills/`
-- **Codex:** copy into `~/.agents/skills/` — `AGENTS.md` at the repo root is the entry point
-- **Any other agent:** point it at `SKILL.md`; that file is the whole thing
-
-</details>
-
-Then just ask:
+Then ask:
 
 ```text
 Use maxforlive-harvester to refresh my Max for Live library
 ```
 
+<details>
+<summary>Other ways to install, and what you need</summary>
+
+- **Claude Code / OpenCode:** copy `skills/maxforlive-harvester/` into `~/.claude/skills/` or `~/.config/opencode/skills/`
+- **Codex:** copy `skills/maxforlive-harvester/` into `~/.agents/skills/` (or `.agents/skills/` in a project). Codex reads `SKILL.md`; the repo-root `AGENTS.md` only applies inside a checkout of this repo
+- **Any other agent:** point it at `skills/maxforlive-harvester/SKILL.md` — that file is the whole skill
+
+The `npx` line needs Node. If you don't have it, copy the folder by hand.
+
+**What you need either way:** an agent that can browse web pages and run shell
+commands, plus Ableton Live with Max for Live, started at least once. Nothing else —
+no runtime, no package to install. The skill hands your agent the command for
+whichever shell you already have (PowerShell on Windows, bash on macOS).
+
+</details>
+
+There are **no scripts, no installer, no build step** — markdown plus two JSON
+indexes.
+
+![What your agent does: list, diff, download, verify, install, confirm](docs/pipeline.svg)
+
+## What this is
+
+| File | Role |
+| --- | --- |
+| `skills/maxforlive-harvester/SKILL.md` | The instructions. This is the skill. |
+| `skills/maxforlive-harvester/reference/platform-paths.md` | Where devices go on Windows and macOS |
+| `skills/maxforlive-harvester/seed/known-devices.json` | 877 devices from a previous harvest, each with its outcome |
+| `skills/maxforlive-harvester/seed/sources.json` | 24 non-catalogue sources already located (18 GitHub repos, 3 Ableton packs, 3 store items) |
+| `examples/CATALOG.md` | Sample output — 410 devices sorted by what they do |
+| `docs/*.svg` | The charts on this page |
+
 ## Use when
 
-- your User Library was wiped and you want the good free devices back
+- you want the good free devices without clicking through hundreds of pages
 - you want releases since last time, not the whole catalogue again
 - a previous attempt said "File not found" for everything — that's usually the
   site's rate limiter, not missing files
@@ -56,39 +66,61 @@ Use maxforlive-harvester to refresh my Max for Live library
 
 ## What it does
 
+A from-scratch harvest is paced at 2–3 seconds per request to stay under the site's
+rate limiter, so it runs for a while — budget an hour or more, and assume it's
+working unless it says otherwise. Repeat runs against the index take minutes.
+
 | You want | You say | You end up with |
 | --- | --- | --- |
-| Everything free, from scratch | "harvest the free M4L devices" | A full library, every file verified |
+| Free devices, from scratch | "harvest the free M4L devices" | A full library, every file verified |
 | Only what's new | "what's new since last time" | A short list of releases, then just those |
-| Devices whose authors moved to Gumroad | "get the free ones off Gumroad" | The **$0** ones only — it never buys |
+| Devices whose authors moved to a store front | "get the free ones off Gumroad" | The **$0** ones only — it never buys |
 | To know what you own | "catalogue my M4L devices" | A list sorted by what each one does |
 
-It works the same on Windows, macOS and Linux, because it uses the shell you
-already have rather than shipping its own.
+## What it won't do
+
+- **Packs.** `.alp` files are a proprietary container. It leaves them in Downloads
+  and tells you to drag them onto Live.
+- **Demo tiers.** When the only $0 option is a demo, you get the demo, folder-named
+  as a demo. The full version is not bought.
+- **Store downloads that aren't devices.** A few free store zips contain VST3s
+  rather than `.amxd`. Those come back as a note, not an install.
+- **Your Gumroad account.** Some free orders still land in a Gumroad Library behind
+  a login, and a couple of $0 checkouts want a postal address. Those are reported
+  as blocked, not invented around.
+- **Your card.** It types the email you give it into Gumroad's checkout. It never
+  types card details, and never pays for anything.
 
 ## It knows what it's doing
 
-877 devices are indexed with their outcome already known, so it never re-fetches
-and never mistakes a paywall for a failure.
+877 devices are indexed with their outcome already recorded — 321 downloaded, 280
+gone from the site, 263 priced and not bought, 7 not for sale, 6 blocked.
 
 ![What the 877-device seed already knows](docs/seed-outcomes.svg)
 
-**263 of those were behind a real price and were deliberately not bought.** Checkouts
-happen only when the cart total is 0.00 — it checks the cart, not the listing,
-because a "$0+" item was seen totalling $5.49. It asks you for your email rather
-than shipping with one baked in.
+**"Gone" means the site no longer hosts a file for that device** — the index has no
+store link for those 280 either. **"Priced" means it was behind a real price and was
+deliberately not bought.** Checkouts happen only when the cart total is 0.00 — it
+checks the cart, not the listing, because a "$0+" item was seen totalling $5.49.
+
+**The index is a record of one earlier harvest, not a scan of your library.** It
+saves fetching. It cannot tell you what you own.
 
 ![410 installed devices, by category](docs/categories.svg)
 
-## Requirements
+That chart is the author's own 410-device library, catalogued well before this
+harvest — not the output of a single run. Full sample:
+[`examples/CATALOG.md`](examples/CATALOG.md).
 
-- An agent with **browser or HTTP access** and **shell access** — Claude Code, Codex, Cursor, OpenCode, or anything similar
-- **Ableton Live** with Max for Live, started at least once
+## Platform status
 
-That's it. No runtime, no package install, no PowerShell.
+Run end to end on **Windows 11**. The macOS paths come from Ableton's own indexer
+log format and have not been through a full harvest here — if you hit something, an
+issue with your error output is genuinely useful. **Linux is not supported**: Live
+doesn't run there, so the whole premise (reading Live's indexer log) doesn't apply.
 
 <details>
-<summary>Why it reads your live's indexer log instead of guessing the path</summary>
+<summary>Why it reads Live's indexer log instead of guessing the path</summary>
 
 `~/Documents` is often redirected into OneDrive or iCloud. Writing devices into
 `Documents/Ableton/User Library` while Live indexes `OneDrive/Documents/...`
@@ -105,9 +137,9 @@ Live's own indexer log and use the path it reports — see
 - [mgarbvs/m4l-github-updater](https://github.com/mgarbvs/m4l-github-updater) — updates installed devices from GitHub
 - [Ronvaknins/ableton-extensions-skill](https://github.com/Ronvaknins/ableton-extensions-skill) — builds Ableton Extensions
 
-Harvesting is HTTP, rate limiting and file validation — all of which work with Live
-closed. An Extension would add a Node ≥24 toolchain and a beta SDK to save about
-thirty seconds.
+Harvesting is HTTP, rate limiting and byte checks — all of which work with Live
+closed. Wrapping it in an Extension would put an SDK and a Node toolchain in the path
+of work that doesn't need either.
 
 </details>
 
