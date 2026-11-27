@@ -4,25 +4,23 @@
 ![platform](https://img.shields.io/badge/platform-Windows%20%7C%20macOS-lightgrey)
 ![deps](https://img.shields.io/badge/dependencies-none-brightgreen)
 
-**No installer, no scripts, nothing to run.** An agent skill that fills your Ableton
-User Library with free Max for Live devices — without clicking 400 pages.
+Find free synths and effects for Ableton Live with your coding agent. [Browse a real catalog of 410 installed devices](examples/CATALOG.md). For example, look up **D-Emu1.0** for a Minimoog-style bass or lead.
 
-## Install
+## Try it on one device
+
+You’ll need Ableton Live with Max for Live (open Live at least once), an agent with web and shell access, and Node for this install command.
 
 ```bash
 npx skills add Justinandjohnson/maxforlive-harvester
 ```
 
-Installs into `.agents/skills/` â€” read directly by Codex and Cursor. It also links
-into `.claude/skills/` for Claude Code, but only in recent versions of the CLI; run
-`npx skills@latest`, since 1.5.15 and earlier skip that link. If it doesn't show up
-in your tool, the manual copy below always works.
+Then ask your agent:
 
-Then ask:
+> Find one free Max for Live bass synth. Show me the source page and wait for me to pick it before downloading.
 
-```text
-Use maxforlive-harvester to refresh my Max for Live library
-```
+Once you pick one, ask the agent to install it and tell you where it landed in your Live User Library. Open the device in Live to try it in a set.
+
+The CLI installs the skill into `.agents/skills/` for Codex and Cursor. Claude Code users should use the latest skills CLI because version 1.5.15 and earlier skip the Claude skill link.
 
 <details>
 <summary>Other ways to install, and what you need</summary>
