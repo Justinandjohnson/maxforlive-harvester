@@ -20,6 +20,8 @@ Then ask your agent:
 
 Once you pick one, ask the agent to install it and tell you where it landed in your Live User Library. Open the device in Live to try it in a set.
 
+Want to show what you found? Follow the [20-second demo recording checklist](docs/record-a-demo.md).
+
 The CLI installs the skill into `.agents/skills/` for Codex and Cursor. Claude Code users should use the latest skills CLI because version 1.5.15 and earlier skip the Claude skill link.
 
 <details>
